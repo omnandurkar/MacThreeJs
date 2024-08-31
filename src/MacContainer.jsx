@@ -1,17 +1,15 @@
 import { useGLTF, useScroll, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber';
-import React from 'react'
-import * as THREE from 'three'
+import React, { useEffect } from 'react';
+import * as THREE from 'three';
 
-
-const MacContainer = () => {
-
-    let model = useGLTF('./mac.glb');
+const MacContainer = ({ setLoading }) => {
+    let model = useGLTF('./mac.glb', true, setLoading(false)); // model loading finished
     let tex = useTexture('./red.jpg');
     let meshes = {};
     model.scene.traverse(e => {
         meshes[e.name] = e;
-    })
+    });
 
     meshes.screen.rotation.x = THREE.MathUtils.degToRad(180);
     meshes.matte.material.map = tex;
@@ -24,6 +22,10 @@ const MacContainer = () => {
         meshes.screen.rotation.x = THREE.MathUtils.degToRad(180 - data.offset * 90);
     });
 
+    useEffect(() => {
+        setLoading(false); // Indicate that the model is loaded
+    }, [setLoading]);
+
     return (
         <group position={[0, -10, 20]} >
             <primitive object={model.scene} />
@@ -31,4 +33,4 @@ const MacContainer = () => {
     )
 }
 
-export default MacContainer
+export default MacContainer;
