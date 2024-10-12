@@ -27,7 +27,7 @@ const MacContainer = ({ setLoading }) => {
     }, [setLoading]);
 
     return (
-        <group position={[0, -10, 20]} >
+        <group position={[0, -11, 20]} >
             <primitive object={model.scene} />
         </group>
     )
